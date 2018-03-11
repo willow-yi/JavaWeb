@@ -1,11 +1,21 @@
-HTML标签不区分大小写
-
+// HTML标签不区分大小写
+头标签
+  <head></head>里面的标签就是头标签
+    <title></title>
+    <meta/>
+      关键字：<meta name="keyword" content="关键字1,关键字2"/>
+      自动跳转: <meta name="refresh" content="时间,url=跳转路径"/>
+    <base/> 统一对所有超链接进行设置
+      设置所有超链接打开方式为在新窗口打开：<base target="_blank"/>
+    link
 文字标签 
   <font></font>
     size:范围为1-7，超过7时默认为7
     color:可用英文字母或RGB表示
 注释标签
   <!-- 注释 -->
+原样输出
+  <pre>原样输出此处的内容<pre/>
 标题标签
   <h1>标题</h1>...<h6>标题</h6>  h1到h6标题文字依次从大到小变化，且此标签会自动换行。
 水平线标签
@@ -35,5 +45,53 @@ HTML标签不区分大小写
         <li></li>
       </ul> 
 图片标签 
-  <img src="图片路径"/ width="图片宽度" height="图片高度">
+  <img src="图片路径"/ width="图片宽度" height="图片高度"/>
     alt:图片的描述文字
+超链接标签
+  -链接资源
+    <a href="连接到资源的路径>显示在超链接上的文字</a> 默认打开方式为在当前页打开
+        target 打开超链接的方式: _blank(在新窗口打开) _self(在当前页面打开)
+      当超链接不需要到任何路径时：href="#"
+  -定位资源
+    <a name="index">顶部</a>  需要定位到的资源
+    <a href="#index">回到顶部</a>  点击此超链接会到达名叫index的资源的位置
+表格标签
+  <table>表格范围</table>  
+    border:表格线粗细  bordercolor:表格线颜色   cellspacig:单元格之间的距离 width height
+  每行：<tr></tr>  align:设置行的显示方式（left、center、right）
+    每行里面的每格<td></td>  自动居中和加粗:<th></th>   rowspan:跨行  colspan:跨列
+  三行三列的表格:  <table>
+                    <tr>
+                       <td>每个单元格显示的内容</td>
+                       <td></td>
+                       <td></td>
+                    </tr>
+                    <tr>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                    </tr>
+                    <tr>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                    </tr>
+                    </table>
+表单标签
+  <form>表单范围<form>  action(提交的地址,默认为当前页面)  method(提交方式,默认为get）:get、post...   enctype
+    <input/>  type:text、password、button、radio(单选框)、checkbox(多选框)、fire(文件)、hidden(隐藏项)、submit(提交按钮)、image(用图片提交，后面加src）、reset(重置)。
+              name
+              value
+              checked="checked"(默认选择此项)
+    <select>选项范围</select>(下拉条）
+        (每个选项)<option value="选项值">选项显示内容</option> 
+    <textarea></textarea>(文本域)  rows、cols
+其他标签
+  b：加粗              sub:下标
+  s: 删除线            sup:上标
+  u：下划线            div:会自动换行
+  i：斜体              span:在同一行显示
+  p: 段落标签
+ 框架标签
+  <frameset> <frame> 
+    不能写在<body</body>里面，使用框架标签应去掉<body></body>
