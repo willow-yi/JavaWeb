@@ -1,4 +1,4 @@
-//使用到change()
+//使用到onchange事件
 <HTML>
  <head>
   <title> HTML练习 </title>
