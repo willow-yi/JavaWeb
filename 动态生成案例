@@ -1,0 +1,39 @@
+<HTML>
+ <head>
+  <title> HTML练习 </title>
+  <style type="text/css">
+
+  </style>
+ </head>
+
+ <body>
+	行:<input type="text"  value="" id="rowsNum"/>
+	列:<input type="text" value="" id="colsNum"/>
+	<br/>
+	<input type="button" value="生成" onclick="createTable()">
+	<div id="place">
+
+	</div>
+ </body>
+  <script type="text/javascript">
+	
+	function createTable() {
+		var rn = document.getElementById("rowsNum").value;
+		var cn = document.getElementById("colsNum").value;
+
+		var tab = "<table border='1' bordercolor='pink' width=800 height=650>";
+		for(var i=0; i<rn; i++) {
+			tab += "<tr>";
+			for(var j=0; j<cn; j++) {
+				tab += "<td>";
+				tab += "</td>";
+			}		
+			tab += "</tr>";
+		}
+		tab +="</table>";
+
+		var place = document.getElementById("place");
+		place.innerHTML = tab;
+	}
+  </script>
+</HTML>
