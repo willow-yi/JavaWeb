@@ -1,0 +1,57 @@
+//使用到change()
+<HTML>
+ <head>
+  <title> HTML练习 </title>
+  <style type="text/css">
+
+  </style>
+ </head>
+
+ <body>
+	<select id="countryid" onchange="change(this.value);">
+		<option value="0">----请选择----</option>
+		<option value="中国">中国</option>
+		<option value="日本">日本</option>
+		<option value="美国">美国</option>
+	</select>
+
+	<select id="cityid">
+
+	</select>
+
+ </body>
+
+  <script type="text/javascript">
+
+	var arr = new Array(3);
+	arr[0] = ["中国","南京","上海","哈尔滨","杭州"];
+	arr[1] = ["日本","东京","北海道","大阪","广岛"];
+	arr[2] = ["美国","华盛顿","底特律","休斯顿","纽约"];
+	
+	
+
+	function change(val){
+		var city1 = document.getElementById("cityid");
+		var options1 = city1.getElementsByTagName("option");
+		for(var i=0; i<options1.length; i++) {
+			var op = options1[i];
+			city1.removeChild(op);
+			i--;
+		}
+
+		for(var i=0; i<arr.length; i++) {
+			var arr1 = arr[i];
+			if(arr1[0] == val) {
+				for(var j=1; j<arr1.length; j++) {
+					var value1 = arr1[j];
+					var option1 = document.createElement("option");
+					var text1 = document.createTextNode(value1);
+					option1.appendChild(text1);
+					city1.appendChild(option1);
+				}
+			}
+		}
+	}
+
+  </script>
+</HTML>
