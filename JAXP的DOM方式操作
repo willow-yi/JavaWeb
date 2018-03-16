@@ -1,0 +1,126 @@
+package com.willow_yi.jaxptest;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+
+public class TestJaxp {
+
+	/**
+	 * @param args
+	 * @throws Exception 
+	 */
+	public static void main(String[] args) throws Exception {
+		//selectAll();
+		//selectFirst();
+		//addSex();
+		//modifySex();
+		//deleteSex();
+		listElements();
+	}
+	
+	//遍历所有标签
+	public static void listElements() throws Exception {
+		DocumentBuilderFactory documentBuilder = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = documentBuilder.newDocumentBuilder();
+		Document document = builder.parse("src/person.xml");
+		
+		list1(document);
+	}
+	
+	private static void list1(Node node) {
+		if(node.getNodeType() == Node.ELEMENT_NODE) {
+			System.out.println(node.getNodeName());
+		}
+		NodeList list = node.getChildNodes();
+		for(int i=0; i<list.getLength(); i++) {
+			Node node1 = list.item(i);
+			list1(node1);
+		}
+	}
+
+	//删除<sex>nan</sex>标签
+	public static void deleteSex() throws Exception {
+		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = builderFactory.newDocumentBuilder();
+		Document document = builder.parse("src/person.xml");
+		
+		NodeList list = document.getElementsByTagName("sex");
+		Node sex = list.item(0);
+		Node parent = sex.getParentNode();
+		parent.removeChild(sex);
+		
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		transformer.transform(new DOMSource(document), new StreamResult("src/person.xml"));
+	}
+	
+	//x修改sex里面的值
+	public static void modifySex() throws Exception {
+		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = builderFactory.newDocumentBuilder();
+		Document document = builder.parse("src/person.xml");
+		
+		NodeList list = document.getElementsByTagName("sex");
+		Node sex = list.item(0);
+		sex.setTextContent("nan");
+		//回写
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		transformer.transform(new DOMSource(document), new StreamResult("src/person.xml"));
+	}
+	
+	//将<sex>nv</sex>添加到第一个p1中
+	public static void addSex()	throws Exception {
+		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = builderFactory.newDocumentBuilder();
+		Document document = builder.parse("src/person.xml");
+		NodeList list = document.getElementsByTagName("p1");
+		Node p1 = list.item(0);
+		
+		Element sex1 = document.createElement("sex");
+		Text test = document.createTextNode("nv");
+		sex1.appendChild(test);
+		p1.appendChild(sex1);
+		//回写到xml中
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		transformer.transform(new DOMSource(document), new StreamResult("src/person.xml"));
+	}
+	
+	//查询第一个name元素的值
+	public static void selectFirst() throws Exception {
+		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = builderFactory.newDocumentBuilder();
+		Document document = builder.parse("src/person.xml");
+		NodeList list = document.getElementsByTagName("name");
+		
+		String name = list.item(0).getTextContent();
+		System.out.println(name);
+	}
+
+	
+	//查询所有name元素的值
+	public static void selectAll() throws Exception {
+		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = builderFactory.newDocumentBuilder();
+		Document document = builder.parse("src/person.xml");
+		NodeList list = document.getElementsByTagName("name");
+		
+		for(int i=0; i<list.getLength(); i++){
+			Node name = list.item(i);
+			String s = name.getTextContent();
+			System.out.println(s);
+		}
+	}
+	
+
+}
