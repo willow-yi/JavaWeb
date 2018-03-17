@@ -50,49 +50,153 @@ public class Dom4jUtils {
 
 //dom4j的DOM方式的基础操作
 //部分用到了上面封装好的工具类
-package com.willow_yi.utils;
+package com.willow_yi.dom4jtest;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-public class Dom4jUtils {
+import com.willow_yi.utils.Dom4jUtils;
+
+public class TestDom4j {
+
+	/**
+	 * @param args
+	 * @throws Exception 
+	 */
 	
-	public static final String PATH = "src/p1.xml";//将传递文件的路径封装成一个常量
-	
-	//返回document
-	public static Document getDocument(String path){
-		try {
-			SAXReader reader = new SAXReader();
-			Document document = reader.read(path);
-			return document;
-		} catch (DocumentException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public static void main(String[] args) throws Exception {
+		//selectName();
+		//selectFirst();
+		//selectSecond();
+		//addSex();
+		//addBeforeAge();
+		//ageModify();
+		//deleteSchool();
+		getId();
 	}
 	
-	//回写
-	public static void xmlWriters(String path, Document document) {
-		try {
-			OutputFormat format = OutputFormat.createPrettyPrint();
-			XMLWriter xmlWriter = new XMLWriter(new FileOutputStream(path), format);
-			xmlWriter.write(document);
-			xmlWriter.close();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	//查询xml中所有name元素的值
+	public static void selectName() throws Exception {
+		SAXReader saxReader = new SAXReader();
+		Document document = saxReader.read("src/p1.xml");
 		
+		Element root = document .getRootElement();
+		
+		List<Element> list = root.elements("p1");
+		for (Element element : list) {
+			Element name = element.element("name");
+			String s = name.getText();
+			System.out.println(s);
+		}
+	}
+	
+	//获取第一个name元素的值
+	public static void selectFirst() throws Exception {
+		SAXReader saxReader = new SAXReader();
+		Document document = saxReader.read("src/p1.xml");
+		
+		Element root = document.getRootElement();
+		
+		Element p1 = root.element("p1");
+		Element name = p1.element("name");
+		String s = name.getText();
+		System.out.println(s);
+	}
+	
+	//获取第二个name元素的值
+	public static void selectSecond() throws Exception {
+		SAXReader saxReader = new SAXReader();
+		Document document = saxReader.read("src/p1.xml");
+		
+		Element root = document.getRootElement();
+		
+		List<Element> list = root.elements("p1");
+		Element p1 = list.get(1);
+		Element name = p1.element("name");
+		String s = name.getText();
+		System.out.println(s);
+	}
+	
+	//在第一个p1下面添加一个sex标签
+	public static void addSex() throws Exception {
+		SAXReader saxReader = new SAXReader();
+		Document document = saxReader.read("src/p1.xml");
+		
+		Element root = document.getRootElement();
+		
+		Element p1 = root.element("p1");
+		Element sex = p1.addElement("sex");
+		sex.setText("nv");
+		//回写
+		OutputFormat format = OutputFormat.createPrettyPrint();
+		XMLWriter xmlWriter = new XMLWriter(new FileOutputStream("src/p1.xml"), format);
+		xmlWriter.write(document);
+		xmlWriter.close();
+	}
+	
+	//在特定位置添加元素
+	public static void addBeforeAge() throws Exception {
+//		SAXReader saxReader = new SAXReader();
+//		Document document = saxReader.read("src/p1.xml");
+		
+		Document document = Dom4jUtils.getDocument(/*"src/p1.xml"*/Dom4jUtils.PATH);
+		Element root = document.getRootElement();
+		
+		Element p1 = root.element("p1");
+		List<Element> list = p1.elements();
+		Element school = DocumentHelper.createElement("school");
+		school.setText("uinversity");
+		list.add(1, school);
+		//回写
+//		OutputFormat format = OutputFormat.createPrettyPrint();
+//		XMLWriter xmlWriter = new XMLWriter(new FileOutputStream("src/p1.xml"), format);
+//		xmlWriter.write(document);
+//		xmlWriter.close();
+		Dom4jUtils.xmlWriters("src/p1.xml", document);
+	}
+	
+	//修改第一个p1下面的age的值
+	public static void ageModify() throws Exception {
+		Document document = Dom4jUtils.getDocument(Dom4jUtils.PATH);
+		Element root = document.getRootElement();
+		
+		Element p1 = root.element("p1");
+		Element age = p1.element("age");
+		
+		age.setText("30");
+		
+		Dom4jUtils.xmlWriters(Dom4jUtils.PATH, document);
+	}
+	
+	//删除第一个p1下面的school元素
+	public static void deleteSchool() throws Exception {
+		
+		Document document = Dom4jUtils.getDocument(Dom4jUtils.PATH);
+		Element root = document.getRootElement();
+		
+		Element p1 = root.element("p1");
+		Element school = p1.element("school");
+		
+		p1.remove(school);
+		
+		Dom4jUtils.xmlWriters(Dom4jUtils.PATH, document);
+	}
+	
+	//获取第一个p1里面的属性id1的值
+	public static void getId() throws Exception {
+		Document document = Dom4jUtils.getDocument(Dom4jUtils.PATH);
+		Element root = document.getRootElement();
+		
+		Element p1 = root.element("p1");
+		String id1 = p1.attributeValue("id1");
+		System.out.println(id1);
 	}
 }
+
