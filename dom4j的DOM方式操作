@@ -47,3 +47,52 @@ public class Dom4jUtils {
 		
 	}
 }
+
+//dom4j的DOM方式的基础操作
+//部分用到了上面封装好的工具类
+package com.willow_yi.utils;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
+
+public class Dom4jUtils {
+	
+	public static final String PATH = "src/p1.xml";//将传递文件的路径封装成一个常量
+	
+	//返回document
+	public static Document getDocument(String path){
+		try {
+			SAXReader reader = new SAXReader();
+			Document document = reader.read(path);
+			return document;
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	//回写
+	public static void xmlWriters(String path, Document document) {
+		try {
+			OutputFormat format = OutputFormat.createPrettyPrint();
+			XMLWriter xmlWriter = new XMLWriter(new FileOutputStream(path), format);
+			xmlWriter.write(document);
+			xmlWriter.close();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+}
